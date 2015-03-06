@@ -132,7 +132,10 @@ module RailsAdminImport
 			def import_initialize(row, map, update)
 				new_attrs = {}
 				self.import_fields.each do |key|
-					new_attrs[key] = row[map[key]] if map[key]
+					if map[key]
+						value = row[map[key]]
+						new_attrs[key] = value if value and value.to_s.present?
+					end
 				end
 
 				item = nil
