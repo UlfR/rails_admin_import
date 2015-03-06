@@ -56,7 +56,7 @@ module RailsAdminImport
 			end
 
 			def run_import(params)
-				logger     = ImportLogger.new
+				@logger     = ImportLogger.new
 				begin
 					if !params.has_key?(:file)
 						return results = { :success => [], :error => ["You must select a file."] }
@@ -109,22 +109,22 @@ module RailsAdminImport
 						verb = object.new_record? ? "Create" : "Update"
 						if object.errors.empty?
 							if object.save
-								logger.info "#{Time.now.to_s}: #{verb}d: #{object.send(label_method)}"
+								@logger.info "#{Time.now.to_s}: #{verb}d: #{object.send(label_method)}"
 								results[:success] << "#{verb}d: #{object.send(label_method)}"
 								object.after_import_save(row, map)
 							else
-								logger.info "#{Time.now.to_s}: Failed to #{verb}: #{object.send(label_method)}. Errors: #{object.errors.full_messages.join(', ')}."
+								@logger.info "#{Time.now.to_s}: Failed to #{verb}: #{object.send(label_method)}. Errors: #{object.errors.full_messages.join(', ')}."
 								results[:error] << "Failed to #{verb}: #{object.send(label_method)}. Errors: #{object.errors.full_messages.join(', ')}."
 							end
 						else
-							logger.info "#{Time.now.to_s}: Errors before save: #{object.send(label_method)}. Errors: #{object.errors.full_messages.join(', ')}."
+							@logger.info "#{Time.now.to_s}: Errors before save: #{object.send(label_method)}. Errors: #{object.errors.full_messages.join(', ')}."
 							results[:error] << "Errors before save: #{object.send(label_method)}. Errors: #{object.errors.full_messages.join(', ')}."
 						end
 					end
 
 					results
 				rescue Exception => e
-					logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect}. #{e.backtrace.join("\n")}"
+					@logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect}. #{e.backtrace.join("\n")}"
 					return results = { :success => [], :error => ["Could not upload. Unexpected error: #{e.to_s}"] }
 				end
 			end
@@ -144,6 +144,7 @@ module RailsAdminImport
 					item = self.send("where", uquery).first
 				end
 
+				@logger.info "new_attrs: #{new_attrs}"
 				if item.nil?
 					item = self.new(new_attrs)
 				else
