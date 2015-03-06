@@ -56,6 +56,7 @@ module RailsAdminImport
 			end
 
 			def run_import(params)
+				logger     = ImportLogger.new
 				begin
 					if !params.has_key?(:file)
 						return results = { :success => [], :error => ["You must select a file."] }
@@ -67,7 +68,6 @@ module RailsAdminImport
 
 					wbook      = RubyXL::Parser.parse params[:file].tempfile
 					fdata      = wbook[0].extract_data
-					logger     = ImportLogger.new
 
 					if fdata.size > RailsAdminImport.config.line_item_limit
 						return results = { :success => [], :error => ["Please limit upload file to #{RailsAdminImport.config.line_item_limit} line items."] }
