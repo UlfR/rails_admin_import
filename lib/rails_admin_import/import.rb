@@ -144,7 +144,7 @@ module RailsAdminImport
 					item = self.send("where", uquery).first
 				end
 
-				@logger.info "new_attrs: #{new_attrs}"
+				#@logger.info "new_attrs: #{new_attrs}"
 				if item.nil?
 					item = self.new(new_attrs)
 				else
