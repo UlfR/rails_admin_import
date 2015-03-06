@@ -138,13 +138,13 @@ module RailsAdminImport
 				item = nil
 				if update.present?
 					uquery = update.map { | key | [ key, row[map[key]] ] }.to_h
-					item = self.send "where", uquery
+					item = self.send("where", uquery).first
 				end
 
 				if item.nil?
 					item = self.new(new_attrs)
 				else
-					item.attributes = new_attrs.except *update
+					item.attributes = new_attrs.except(*update)
 					item.save
 				end
 
