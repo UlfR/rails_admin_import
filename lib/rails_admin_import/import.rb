@@ -124,7 +124,7 @@ module RailsAdminImport
 
 					results
 				rescue Exception => e
-					logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect}"
+					logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect}. #{e.backtrace.join("\n")}"
 					return results = { :success => [], :error => ["Could not upload. Unexpected error: #{e.to_s}"] }
 				end
 			end
