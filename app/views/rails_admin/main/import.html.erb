@@ -89,7 +89,7 @@
         <p class="help-block"><%= t('admin.import.help.file_limit', limit: RailsAdminImport.config.line_item_limit) %></p>
       </div>
     </div>
-    <div class="control-group">
+    <!-- div class="control-group">
       <label class="control-label" data-original-title="Click to reverse selection" onclick="jQuery(this).siblings('.controls').find('input').click()" rel="tooltip"><%= t('admin.import.update_if_exists') %></label>
       <div class="controls">
         <label class="checkbox">
@@ -106,11 +106,11 @@
           <% end -%>
         </select>
       </div>
-    </div>
+    </div -->
 
   </fieldset>
   <% if @abstract_model.model.belongs_to_fields.any? || @abstract_model.model.many_fields.any? -%>
-  <fieldset>
+  <!-- fieldset>
     <legend>
       <i class="icon-chevron-down"></i>
       <%= t('admin.import.legend.mapping') %>
@@ -127,7 +127,7 @@
       </div>
     </div>
     <% end -%>
-  </fieldset>
+  </fieldset -->
   <% end -%>
   <div class="form-actions">
     <button class="btn btn-primary" name="commit" type="submit" data-disable-with="Uploading...">
